@@ -14,9 +14,18 @@ app.get("/projects", reqCount, (req,res) => {
 
 app.post("/projects", reqCount, (req, res) => {
 
-  console.log(req.body)
+  const { id } = req.body
 
-  return res.json({ ok: "message" })
+  const project = dbProjects.filter(item => item.id === id)
+  console.log(project)
+
+  if(project.length > 0) {
+    return res.status(400).json({ "message": "This project already exist!"})
+  }
+
+  dbProjects.push(req.body)
+
+  return res.json(dbProjects)
 })
 
 app.post("/projects/:id/tasks", reqCount, checkProjectExist, (req,res) => {
@@ -33,11 +42,12 @@ app.delete("/projects/:id", reqCount, checkProjectExist, (req, res) => {
 
 //middlewares
 function checkProjectExist(req, res, next) {
+  
   const { id } = req.body
 
   const project = dbProjects.filter(item => item.id === id)
 
-  if(!project) {
+  if(project.length === 0) {
     return res.status(400).json({ message: "Project doesn't exist!"})
   }
 
