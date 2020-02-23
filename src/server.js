@@ -1,7 +1,7 @@
 const express = require("express")
 
 const dbProjects = []
-let reqCount = 0
+let reqNumber = 0
 
 const app = express()
 
@@ -48,9 +48,9 @@ function checkProjectExist(req, res, next) {
 }
 
 function reqCount(req, res, next) {
-  req.count = reqCount++
+  reqNumber++
 
-  console.log(`Number of requests: ${req.count}`)
+  console.log(`Number of requests: ${reqNumber}`)
 
   return next()
 }
