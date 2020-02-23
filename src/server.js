@@ -1,29 +1,58 @@
 const express = require("express")
 
 const dbProjects = []
+let reqCount = 0
 
 const app = express()
 
 app.use(express.json())
 
-app.get("/projects", (req,res) => {
+//Routes
+app.get("/projects", reqCount, (req,res) => {
   return res.json(dbProjects)
 })
 
-app.post("/pojects", (req,res) => {
+app.post("/projects", reqCount, (req, res) => {
+
+  console.log(req.body)
+
+  return res.json({ ok: "message" })
+})
+
+app.post("/projects/:id/tasks", reqCount, checkProjectExist, (req,res) => {
 
 })
 
-app.post("/projects/:id/tasks", (req,res) => {
+app.put("/projects/:id", reqCount, checkProjectExist, (req, res) => {
 
 })
 
-app.put("/projects/:id", (req, res) => {
+app.delete("/projects/:id", reqCount, checkProjectExist, (req, res) => {
 
 })
 
-app.delete("/projects/:id", (req, res) => {
+//middlewares
+function checkProjectExist(req, res, next) {
+  const { id } = req.body
 
-})
+  const project = dbProjects.filter(item => item.id === id)
+
+  if(!project) {
+    return res.status(400).json({ message: "Project doesn't exist!"})
+  }
+
+  req.project = project
+
+  return next()
+
+}
+
+function reqCount(req, res, next) {
+  req.count = reqCount++
+
+  console.log(`Number of requests: ${req.count}`)
+
+  return next()
+}
 
 app.listen(3000)
