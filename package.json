@@ -1,0 +1,16 @@
+{
+  "name": "desafio-01-conceitos-node-js",
+  "version": "0.0.1",
+  "main": "src/server.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
